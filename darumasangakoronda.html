@@ -1,0 +1,68 @@
+<!--
+まだつくりかけです
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Javascriptでだるまさんがころんだ</title>
+  </head>
+  <body id="block" onmouseover="">
+    <a href="#" onclick="magicWordStart()">追加</a>
+    <div id="magic-word"></div>
+    <div id="oni" onmouseover="youWin();">oni</div>
+
+    <script type="text/javascript">
+      function magicWordStart() {
+        document.getElementById("block").style.backgroundColor = "#FFFFFF";
+        setTimeout(function() { magicWordView(255, 0)}, 200);
+      }
+
+      function magicWordView(newColor, magicWord) {
+        // ユーザが動ける状態へ
+        // TODO : まだうまく動かない
+        document.getElementById("block").onmouseover = "function (){youMoveOK();}";
+       
+        //変数セット
+        var magicWordArray = ["","だ","る","ま","さ","ん","が","こ","ろ","ん","だ",""];
+        var hexVal = newColor.toString(16);
+        var magicWordNum = magicWord;
+
+        if(hexVal.length < 2) {
+          hexVal = "0" + hexVal;
+        }
+
+        // 呪文の表示
+        var spanNode = document.createElement("span");
+        var textNode = document.createTextNode(magicWordArray[magicWordNum]);
+        spanNode.appendChild(textNode);
+        magicWordNum = magicWordNum + 1;
+        var node = document.getElementById("magic-word");
+        node.appendChild(spanNode);
+
+        // バックグラウンドの更新
+        var colorString = "#FFFF" + hexVal;
+        var blockDiv = document.getElementById("block");
+        blockDiv.style.backgroundColor = colorString;
+
+        // newColorが0以上なら再帰
+        if (newColor > 0){
+          newColor -= 25;
+          setTimeout(function() { magicWordView(newColor, magicWordNum); }, 200);
+          //ユーザが動いたら負けの状態へ
+          // TODO : まだうまく動かない
+          document.getElementById("block").onmouseover = "function (){youLose();}";
+        }
+      }
+
+      function youWin() {
+        alert("You Win!");
+      }
+
+      function youLose() {
+        alert("You Lose!");
+      }
+
+      function youMoveOK(){} 
+   </script>
+  </body>
+</html>
