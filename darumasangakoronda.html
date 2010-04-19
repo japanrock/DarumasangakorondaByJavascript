@@ -5,11 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Javascriptでだるまさんがころんだ</title>
+    <style type="text/css">
+    </style>
   </head>
-  <body id="block" onmouseover="">
-    <a href="#" onclick="magicWordStart()">追加</a>
+  <body>
+    <a href="#" onclick="magicWordStart()">ゲームスタート</a>
     <div id="magic-word"></div>
-    <div id="oni" onmouseover="youWin();">oni</div>
+    <img id="oni" src="oni.png" onmouseover="youWin();">
+    <div id="block" style="width:100%; height:100%;">
+    hogehoge
+    
+    </div>
 
     <script type="text/javascript">
       function magicWordStart() {
@@ -18,11 +24,7 @@
       }
 
       function magicWordView(newColor, magicWord) {
-        // ユーザが動ける状態へ
-        // TODO : まだうまく動かない
-        document.getElementById("block").onmouseover = "function (){youMoveOK();}";
-       
-        //変数セット
+       //変数セット
         var magicWordArray = ["","だ","る","ま","さ","ん","が","こ","ろ","ん","だ",""];
         var hexVal = newColor.toString(16);
         var magicWordNum = magicWord;
@@ -48,10 +50,14 @@
         if (newColor > 0){
           newColor -= 25;
           setTimeout(function() { magicWordView(newColor, magicWordNum); }, 200);
+          // ユーザが動ける状態へ
+          // TODO : まだうまく動かない
+          document.getElementById("block").onmouseover = function (){youMoveOK();};
+        } else {
           //ユーザが動いたら負けの状態へ
           // TODO : まだうまく動かない
-          document.getElementById("block").onmouseover = "function (){youLose();}";
-        }
+          document.getElementById("block").onmouseover = function (){youLose();};
+       }
       }
 
       function youWin() {
@@ -62,7 +68,9 @@
         alert("You Lose!");
       }
 
-      function youMoveOK(){} 
+      function youMoveOK(){
+        alert("You MoveOK");
+      } 
    </script>
   </body>
 </html>
