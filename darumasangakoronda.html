@@ -5,16 +5,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Javascriptでだるまさんがころんだ</title>
-    <style type="text/css">
-    </style>
   </head>
   <body>
     <a href="#" onclick="magicWordStart()">ゲームスタート</a>
     <div id="magic-word"></div>
     <img id="oni" src="oni.png" onmouseover="youWin();">
-    <div id="block" style="width:100%; height:100%;">
-    hogehoge
-    
+    <div id="block" style="width:1px; height:1px;">
+      ユーザ空間 
     </div>
 
     <script type="text/javascript">
@@ -48,15 +45,14 @@
 
         // newColorが0以上なら再帰
         if (newColor > 0){
+          // ユーザが動ける状態
           newColor -= 25;
           setTimeout(function() { magicWordView(newColor, magicWordNum); }, 200);
-          // ユーザが動ける状態へ
-          // TODO : まだうまく動かない
-          document.getElementById("block").onmouseover = function (){youMoveOK();};
         } else {
           //ユーザが動いたら負けの状態へ
-          // TODO : まだうまく動かない
-          document.getElementById("block").onmouseover = function (){youLose();};
+          document.getElementById("block").style.width  = "100%";
+          document.getElementById("block").style.height = "100%";
+          document.getElementById("block").onmousemove = function (){youLose();};
        }
       }
 
@@ -67,10 +63,6 @@
       function youLose() {
         alert("You Lose!");
       }
-
-      function youMoveOK(){
-        alert("You MoveOK");
-      } 
    </script>
   </body>
 </html>
