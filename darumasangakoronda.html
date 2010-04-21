@@ -70,18 +70,16 @@
           newColor -= 25;
           color_view_loop = setTimeout(function() { magicWordView(newColor, magicWordNum); }, 100);
         } else {
-         //マジックワードの繰り返しをキャンセル
+          //マジックワードの繰り返しをキャンセル
           clearTimeout(magic_word_loop);
           //バックグランドカラー表示の繰り返しをキャンセル
           clearTimeout(color_view_loop);
 
-          userStopTime();
-       }
-      }
+          //呪文表示のリセット後で作る
 
-      function userStopTime() {
-        var t = setTimeout(magicWordStart(), 10000);
-        clearTimeout(t);
+          //Next Game
+          magicWordStart();
+       }
       }
 
       function youWin() {
