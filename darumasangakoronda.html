@@ -5,13 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Javascriptでだるまさんがころんだ</title>
+    <!-- reset-min.css by http://developer.yahoo.com/yui/reset/ -->
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.0r4/build/reset/reset-min.css">
   </head>
   <body>
-    <a href="#" onclick="magicWordStart()">ゲームスタート</a>
-    <div id="magic-word"></div>
-    <img id="oni" src="oni.png" onmouseover="youWin();">
-    <div id="block" style="width:1px; height:1px;">
-      ユーザ空間 
+    <div id="block" style="width:300px; height:100px;">
+      <a href="#" onclick="magicWordStart()">ゲームスタート</a>
+      <div id="magic-word"></div>
+      <img id="oni" src="oni.png" onmouseover="youWin();">
     </div>
 
     <script type="text/javascript">
