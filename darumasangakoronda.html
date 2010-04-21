@@ -10,22 +10,34 @@
   </head>
   <body>
     <div id="block" style="width:300px; height:100px;">
-      <a href="#" onclick="magicWordStart()">ゲームスタート</a>
+      <a href="#" onclick="gameStart()">ゲームスタート</a>
       <div id="magic-word"></div>
       <img id="oni" src="oni.png" onmouseover="youWin();">
     </div>
 
     <script type="text/javascript">
+      function gameStart() {
+        var start_message = "「だるまさんがころんだ」と鬼が言っている間に、鬼をマウスで触ったらあなたの勝ちです。「だるまさんがころんだ」と言い終わった後にあなたが動いたら負けです。"
+        alert(start_message);
+
+        magicWordStart();
+      }
+
       function magicWordStart() {
         document.getElementById("block").style.backgroundColor = "#FFFFFF";
-        setTimeout(function() { magicWordView(255, 0)}, 200);
+        magic_word_loop = setTimeout(function() { magicWordView(510, 0)}, 100);
       }
 
       function magicWordView(newColor, magicWord) {
-       //変数セット
-        var magicWordArray = ["","だ","る","ま","さ","ん","が","こ","ろ","ん","だ",""];
+        //変数セット
+        var magicWordArray = ["","だ","る","ま","さ","ん","が","こ","ろ","ん","だ","!","","","","","","","","","","　NextGame　"];
         var hexVal = newColor.toString(16);
         var magicWordNum = magicWord;
+
+        //動いても良い状態へi
+        if (magicWordArray[magicWordNum] === "　NextGame　") {
+          document.getElementById("block").onmousemove = function (){youMoveOK();};
+        }
 
         if(hexVal.length < 2) {
           hexVal = "0" + hexVal;
@@ -44,21 +56,39 @@
         var blockDiv = document.getElementById("block");
         blockDiv.style.backgroundColor = colorString;
 
-        // newColorが0以上なら再帰
-        if (newColor > 0){
-          // ユーザが動ける状態
-          newColor -= 25;
-          setTimeout(function() { magicWordView(newColor, magicWordNum); }, 200);
-        } else {
+        // ! の部分で動いたら負けの状態になる
+        if (magicWordArray[magicWordNum] === "!") {
           //ユーザが動いたら負けの状態へ
           document.getElementById("block").style.width  = "100%";
           document.getElementById("block").style.height = "100%";
           document.getElementById("block").onmousemove = function (){youLose();};
+        }
+
+        // newColorが0以上なら再帰
+        if (newColor > 0){
+          // ユーザが動ける状態
+          newColor -= 25;
+          color_view_loop = setTimeout(function() { magicWordView(newColor, magicWordNum); }, 100);
+        } else {
+         //マジックワードの繰り返しをキャンセル
+          clearTimeout(magic_word_loop);
+          //バックグランドカラー表示の繰り返しをキャンセル
+          clearTimeout(color_view_loop);
+
+          userStopTime();
        }
+      }
+
+      function userStopTime() {
+        var t = setTimeout(magicWordStart(), 10000);
+        clearTimeout(t);
       }
 
       function youWin() {
         alert("You Win!");
+      }
+
+      function youMoveOK() {
       }
 
       function youLose() {
