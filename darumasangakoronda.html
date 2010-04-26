@@ -1,17 +1,14 @@
-<!--
-まだつくりかけです
--->
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Javascriptでだるまさんがころんだ</title>
+    <title>Javascriptでだるまさんがころんだ Level 1</title>
     <!-- reset-min.css by http://developer.yahoo.com/yui/reset/ -->
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.0r4/build/reset/reset-min.css">
   </head>
   <body>
     <div id="block" style="width:300px; height:100px;">
       <div id="start"><a href="#" onclick="gameStart()">ゲームスタート</a></div>
-      <img id="oni" src="oni.png" onmouseover="youWin();">
+      <img id="oni" src="oni.png" style="position:absolute;"  onmouseover="youWin();">
       <div id="magic-word"></div>
     </div>
 
@@ -20,11 +17,22 @@
         var start_message = "「だるまさんがころんだ」と鬼が言っている間に、鬼をマウスで触ったらあなたの勝ちです。「だるまさんがころんだ」と言い終わった後にあなたが動いたら負けです。"
         alert(start_message);
 
+        //「ゲームスタート」のノードを削除
+        var node = document.getElementById("start");
+        var parent = node.parentNode;
+        parent.removeChild(node);
+
+        //ゲームスタート
         magicWordStart();
       }
 
       function magicWordStart() {
+        //バックグラウンドからーリセット
         document.getElementById("block").style.backgroundColor = "#FFFFFF";
+        //鬼の位置が移動する
+        document.getElementById("oni").style.top  = Math.random()*100 + "%";
+        document.getElementById("oni").style.left = Math.random()*100 + "%";
+        //呪文の表示、バックグラウンドカラーの変化
         magic_word_loop = setTimeout(function() { magicWordView(510, 0)}, 100);
       }
 
@@ -79,7 +87,7 @@
           var node = document.getElementById("magic-word");
           var parent = node.parentNode;
           parent.removeChild(node);
-
+          //新しく呪文表示場所を作る
           var divNode = document.createElement("div");
           divNode.id = "magic-word";
           document.getElementById("block").appendChild(divNode);
