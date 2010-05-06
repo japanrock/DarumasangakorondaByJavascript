@@ -7,15 +7,14 @@
   </head>
   <body style="color:#990000;">
     <div id="block" style="width:300px; height:100px;">
-      <div id="start"><a href="#" onclick="gameStart()">ゲームスタート</a></div>
+      <div id="start"><a href="#" onclick="Main()">ゲームスタート Level2</a></div>
       <img id="oni" src="oni.png" style="position:absolute;"  onmouseover="youWin();">
       <div id="magic-word"></div>
     </div>
 
     <script type="text/javascript">
-      function gameStart() {
-        var start_message = "「だるまさんがころんだ」と鬼が言っている間に、鬼をマウスで触ったらあなたの勝ちです。「だるまさんがころんだ」と言い終わった後にあなたが動いたら負けです。"
-        alert(start_message);
+      function Main() {
+        StartMessage();
 
         //「ゲームスタート」のノードを削除
         var node = document.getElementById("start");
@@ -23,15 +22,16 @@
         parent.removeChild(node);
 
         //ゲームスタート
-        magicWordStart();
+        magicWordLoop();
       }
 
-      function magicWordStart() {
+      function magicWordLoop() {
         //バックグラウンドからーリセット
         document.getElementById("block").style.backgroundColor = "#FFFFFF";
-        //鬼の位置が移動する
-        document.getElementById("oni").style.top  = Math.random()*100 + "%";
-        document.getElementById("oni").style.left = Math.random()*100 + "%";
+
+        //ゲームスタート寸前に鬼の位置を変更
+        MoveDevil();
+
         //呪文の表示、バックグラウンドカラーの変化
         magic_word_loop = setTimeout(function() { magicWordView(510, 0)}, 100);
       }
@@ -45,6 +45,10 @@
         //動いても良い状態へi
         if (magicWordArray[magicWordNum] === "　NextGame　") {
           document.getElementById("block").onmousemove = function (){youMoveOK();};
+        }
+
+        if  (magicWordArray[magicWordNum] === "こ") {
+          MoveDevil();
         }
 
         if(hexVal.length < 2) {
@@ -93,10 +97,17 @@
           document.getElementById("block").appendChild(divNode);
 
           //Next Game
-          magicWordStart();
+          magicWordLoop();
        }
       }
 
+      //ゲームスタート時に出すアラート
+      function StartMessage() {
+        var start_message = "「だるまさんがころんだ」と鬼が言っている間に、鬼をマウスで触ったらあなたの勝ちです。「だるまさんがころんだ」と言い終わった後にあなたが動いたら負けです。"
+        alert(start_message);
+      }
+
+      //勝ちのアラート
       function youWin() {
         alert("You Win!");
       }
@@ -104,9 +115,16 @@
       function youMoveOK() {
       }
 
+      //負けのアラート
       function youLose() {
         alert("You Lose!");
       }
-   </script>
+
+      //鬼の位置が移動する
+      function MoveDevil() {
+        document.getElementById("oni").style.top  = Math.random()*100 + "%";
+        document.getElementById("oni").style.left = Math.random()*100 + "%";
+      }
+    </script>
   </body>
 </html>
